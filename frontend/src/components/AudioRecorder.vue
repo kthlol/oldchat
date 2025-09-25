@@ -1,17 +1,14 @@
 <template>
   <div class="recorder-wrap">
-    <div class="composer">
-      <button class="mic-btn" :class="{ active: store.isRecording }" :aria-pressed="store.isRecording"
-              :title="store.isRecording ? '点击结束' : '点击开始说话'" @click="toggleRecord" :disabled="store.isSending">
-        <svg v-if="!store.isRecording" viewBox="0 0 24 24" width="28" height="28" aria-hidden="true">
-          <path fill="currentColor" d="M12 14a3 3 0 0 0 3-3V6a3 3 0 1 0-6 0v5a3 3 0 0 0 3 3Zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-3.08A7 7 0 0 0 19 11h-2Z"/>
-        </svg>
-        <svg v-else viewBox="0 0 24 24" width="28" height="28" aria-hidden="true">
-          <path fill="currentColor" d="M6 6h12v12H6z"/>
-        </svg>
-      </button>
-      <input class="upload" type="file" accept="audio/*" @change="onUpload" title="上传音频文件" />
-    </div>
+    <button class="mic-btn" :class="{ active: store.isRecording }" :aria-pressed="store.isRecording"
+            :title="store.isRecording ? '点击结束' : '点击开始说话'" @click="toggleRecord" :disabled="store.isSending">
+      <svg v-if="!store.isRecording" viewBox="0 0 24 24" width="48" height="48" aria-hidden="true">
+        <path fill="currentColor" d="M12 14a3 3 0 0 0 3-3V6a3 3 0 1 0-6 0v5a3 3 0 0 0 3 3Zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-3.08A7 7 0 0 0 19 11h-2Z"/>
+      </svg>
+      <svg v-else viewBox="0 0 24 24" width="48" height="48" aria-hidden="true">
+        <path fill="currentColor" d="M6 6h12v12H6z"/>
+      </svg>
+    </button>
     <div v-if="store.error" class="error">{{ store.error }}</div>
   </div>
  </template>
@@ -92,43 +89,52 @@
    }
  }
  
- async function onUpload(e: Event) {
-   const input = e.target as HTMLInputElement
-   const file = input.files?.[0]
-   if (!file) return
-   ensureWs()
-   store.setSending(true)
-   const ab = await file.arrayBuffer()
-   ws!.send(ab)
-   ws!.send(JSON.stringify({ type: 'END', role: store.role }))
- }
  
  onBeforeUnmount(() => { if (ws && ws.readyState === WebSocket.OPEN) ws.close() })
  </script>
 
 <style scoped>
-.recorder-wrap { padding: 8px 0; }
-.composer {
-  display: flex;
-  gap: 12px;
-  align-items: center;
+.recorder-wrap { 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  padding: 20px 0; 
 }
 .mic-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 64px;
-  height: 64px;
+  width: 120px;
+  height: 120px;
   border-radius: 9999px;
-  border: 1px solid #dcdcdc;
-  background: #fff;
-  color: #111;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-  transition: all .15s ease;
+  border: 2px solid #d1d5db;
+  background: #ffffff;
+  color: #6b7280;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  transition: all .2s ease;
+  cursor: pointer;
 }
-.mic-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+.mic-btn:hover { 
+  transform: translateY(-2px); 
+  box-shadow: 0 12px 32px rgba(0,0,0,0.2); 
+  border-color: #9ca3af;
+  background: #f9fafb;
+}
 .mic-btn:active { transform: translateY(0); }
-.mic-btn.active { background: #10a37f; color: #fff; border-color: #0e8e6e; }
-.upload { font-size: 14px; }
-.error { color: #c00; margin-top: 6px; }
+.mic-btn.active { 
+  background: #3b82f6; 
+  color: #fff; 
+  border-color: #3b82f6; 
+  box-shadow: 0 8px 24px rgba(59, 130, 246, 0.3);
+}
+.mic-btn:disabled { 
+  opacity: 0.6; 
+  cursor: not-allowed; 
+}
+.error { 
+  color: #ef4444; 
+  margin-top: 12px; 
+  text-align: center; 
+  font-size: 14px; 
+}
 </style>

@@ -1,3 +1,4 @@
 OPENAI_API_KEY=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
 
-
+# 高德地图API Key (需要申请)
+AMAP_API_KEY=your_amap_api_key_here

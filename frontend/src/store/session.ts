@@ -5,6 +5,8 @@ export interface ChatMessage {
   userText: string
   replyText: string
   audioUrl?: string
+  videoUrl?: string
+  videoFormat?: string
 }
 
 export const useSessionStore = defineStore('session', {
@@ -15,7 +17,8 @@ export const useSessionStore = defineStore('session', {
     messages: [] as ChatMessage[],
     isRecording: false,
     isSending: false,
-    error: ''
+    error: '',
+    isVoiceMode: false
   }),
   actions: {
     updateSTT(text: string) { this.sttText = text },
@@ -28,6 +31,7 @@ export const useSessionStore = defineStore('session', {
     },
     setRecording(v: boolean){ this.isRecording = v },
     setSending(v: boolean){ this.isSending = v },
-    setError(msg: string){ this.error = msg }
+    setError(msg: string){ this.error = msg },
+    setVoiceMode(v: boolean){ this.isVoiceMode = v }
   }
 })

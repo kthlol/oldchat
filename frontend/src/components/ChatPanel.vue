@@ -1,8 +1,5 @@
 <template>
   <section class="panel">
-    <div class="topbar">
-      <div class="role"><RoleSelector /></div>
-    </div>
     <div class="center">
       <AudioRecorder />
     </div>
@@ -16,7 +13,6 @@
 </template>
 
 <script setup>
-import RoleSelector from './RoleSelector.vue'
 import AudioRecorder from './AudioRecorder.vue'
 import ChatWindow from './ChatWindow.vue'
 import Composer from './Composer.vue'
@@ -24,8 +20,6 @@ import Composer from './Composer.vue'
 
 <style scoped>
 .panel { display:flex; flex-direction:column; gap:16px; }
-.topbar { display:flex; align-items:center; justify-content:flex-end; }
-.role { min-width: 320px; }
 .center { display:flex; justify-content:center; }
 .bottom { background:#0b1223; border:1px solid #334155; border-radius:12px; padding:12px; }
 .h { margin:0 0 10px; font-size:14px; color:#86efac; }
